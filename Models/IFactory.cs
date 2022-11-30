@@ -1,6 +1,6 @@
 ﻿namespace Lab2.Model
 {
-    internal interface IFactory
+    public interface IFactory
     {
         FactoryHR FactoryHR { get; }
         string Name { get; }

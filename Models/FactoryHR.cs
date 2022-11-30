@@ -1,21 +1,32 @@
-﻿using Lab2_Sharp.Errors;
+﻿using Lb2_CSharp.Errors;
 using System;
 
 namespace Lab2.Model
 {
-    internal class FactoryHR : IFactoryHR
+    public class FactoryHR : IFactoryHR
     {
         private const int SlavesPerMaster = 10;
         public FactoryHR(decimal incomePerSlave, decimal incomePerMaster, int quantityOfMasters, int quantityOfSlaves)
         {
-            if (quantityOfMasters < 0 && quantityOfSlaves < 0)
+            if (quantityOfMasters < 0 || quantityOfSlaves < 0)
             {
                 throw new ArgumentException("quantity of employees are less or euqal than 0");
             }
+
             IncomePerSlave = incomePerSlave;
             IncomePerMaster = incomePerMaster;
             QuantityOfMasters = quantityOfMasters;
             QuantityOfSlaves = quantityOfSlaves;
+            int qunatOfMastersToHire = FindOutQuantityOfMastersToHire(), quantOfSlavesToHire = FindOutQuantityOfSlavesToHire();
+            if (qunatOfMastersToHire != 0)
+            {
+                throw new NeedsMastersToHireException("Quantity of masters is not enough", qunatOfMastersToHire);
+            }
+
+            if (quantOfSlavesToHire != 0)
+            {
+                throw new NeedsSlavesToHireException("Quantity of salves is not enough", quantOfSlavesToHire);
+            }
         }
 
         public decimal IncomePerSlave { get; private set; }
@@ -81,7 +92,7 @@ namespace Lab2.Model
                 throw new NeedsMastersToHireException("There is no masters to lead slaves!", (int)Math.Ceiling(QuantityOfSlaves*0.1));
             }
             int needsSlaves = QuantityOfMasters * SlavesPerMaster - QuantityOfSlaves;
-            if (needsSlaves < 0)
+            if (needsSlaves > 0)
             {
                 throw new NeedsSlavesToHireException("Needs slaves to hire!", needsSlaves * -1);
             }
@@ -100,7 +111,7 @@ namespace Lab2.Model
             }
 
             int needsMasters = (int)Math.Ceiling((double)(QuantityOfSlaves - QuantityOfMasters * SlavesPerMaster) / SlavesPerMaster);
-            if (needsMasters <= 0)
+            if (needsMasters < 0)
             {
                 throw new NeedsSlavesToHireException("Needs slaves to hire!", needsMasters * -1);
             }

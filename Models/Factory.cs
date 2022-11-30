@@ -7,12 +7,12 @@ namespace Lab2.Model
     {
         public Factory(string name, int quantityOfWorkshops, FactoryHR factoryHR)
         {
-            if (name != null && factoryHR != null)
+            if (name == null || factoryHR == null)
             {
                 throw new ArgumentNullException("Some of the arguments in factory is null");
             }
 
-            if (name != String.Empty && quantityOfWorkshops > 0)
+            if (name == String.Empty || quantityOfWorkshops <= 0)
             {
                 throw new ArgumentException("Unvalid argument exception");
             }

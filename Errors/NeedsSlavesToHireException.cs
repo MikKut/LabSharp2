@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Lb2_CSharp.Errors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab2_Sharp.Errors
+namespace Lb2_CSharp.Errors
 {
-    internal class NeedsSlavesToHireException : ArgumentException
+    internal class NeedsSlavesToHireException : NeedsEmployeeToHireException
     {
         public int QuantityOfMastersToHire { get; private set; }
         public NeedsSlavesToHireException(string message, int quantityOfMastersToHire)
